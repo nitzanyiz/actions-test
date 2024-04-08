@@ -1,0 +1,25 @@
+name: Notify Assignee on PR Assignment
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  notify-assignee:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check for assignees
+        id: assignee-check
+        run: echo "::set-output name=has_assignees::${{ steps.assignee-check.outputs.assignees > 0 }}"
+
+      - name: Send email notification
+        if: steps.assignee-check.outputs.has_assignees == 'true'
+        uses: dawidd6/action-send-mail@v3.12.0
+        with:
+          to: ${{ github.event.pull_request.assignees[0].email }}
+          subject: "You've been assigned to PR #${{ github.event.pull_request.number }}"
+          body: "Hello! You've been assigned to PR #${{ github.event.pull_request.number }}. Please review it."
