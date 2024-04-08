@@ -14,12 +14,13 @@ jobs:
 
       - name: Check for assignees
         id: assignee-check
-        run: echo "{has_assignees}={{ steps.assignee-check.outputs.assignees > 0 }}" >> $HAS_ASSIGNEE
+        run: echo "::set-output name=has_assignees::${{ steps.assignee-check.outputs.assignees > 0 }}"
 
       - name: Send email notification
-        if: $HAS_ASSIGNEE == 'true'
+        if: steps.assignee-check.outputs.has_assignees == 'true'
         uses: dawidd6/action-send-mail@v3.12.0
         with:
           to: ${{ github.event.pull_request.assignees[0].email }}
           subject: "You've been assigned to PR #${{ github.event.pull_request.number }}"
           body: "Hello! You've been assigned to PR #${{ github.event.pull_request.number }}. Please review it."
+
