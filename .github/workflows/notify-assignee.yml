@@ -14,7 +14,7 @@ jobs:
 
       - name: Check for assignees
         id: assignee-check
-        run: echo "::set-output name=has_assignees::${{ steps.assignee-check.outputs.assignees > 0 }}"
+        run: echo "::set-output name=has_assignees::${{ steps.assignee-check.outputs.assignees > 0 }}" && echo steps.assignee-check.outputs.has_assignees
 
       - name: Send email notification
         if: steps.assignee-check.outputs.has_assignees == 'true'
