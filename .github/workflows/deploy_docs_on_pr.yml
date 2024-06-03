@@ -2,9 +2,8 @@ name: Deploy docs on pr
 
 on:
   pull_request:
-    branches:
-      - test
-    workflow_dispach:
+    types: [open, reopened]
+    branches: [test]
 
 jobs:
   get_files:
