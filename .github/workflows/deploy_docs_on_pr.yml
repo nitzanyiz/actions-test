@@ -1,7 +1,7 @@
 name: Deploy docs on pr
 
 on:
-  push:
+  pull_request:
     branches:
       - test
     workflow_dispach:
