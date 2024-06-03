@@ -3,7 +3,7 @@ name: Deplo docs on pr
 on:
   push:
     branches:
-      - main
+      - test
     workflow_dispach:
 
 jobs:
