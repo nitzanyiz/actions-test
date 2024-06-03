@@ -3,7 +3,7 @@ name: Deploy docs on pr
 on:
   pull_request:
     types: [open, reopened]
-    branches: [test]
+    branches: [master]
 
 jobs:
   get_files:
