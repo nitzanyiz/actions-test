@@ -4,6 +4,7 @@ on:
   pull_request:
     types: [open, reopened]
     branches: [master]
+    workflow_dispatch:
 
 jobs:
   get_files:
