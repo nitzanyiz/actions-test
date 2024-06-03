@@ -11,9 +11,9 @@ jobs:
     name: get_file_diffs
     runs-on: ubuntu-lastest
     steps:
-      -name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 2
-      -name: Modified files
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Modified files
         run: git diff --name-only -r HEAD^1 HEAD
