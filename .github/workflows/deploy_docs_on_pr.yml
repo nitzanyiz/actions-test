@@ -1,4 +1,4 @@
-name: Deplo docs on pr
+name: Deploy docs on pr
 
 on:
   push:
@@ -7,17 +7,13 @@ on:
     workflow_dispach:
 
 jobs:
-  hello:
-    runs-on: ubuntu-latest
+  get_files:
+    name: get_file_diffs
+    runs-on: ubuntu-lastest
     steps:
-      - uses: actions/checkout@v4
-      - name: hello world
-        run: echo "Hello world!"
-        shell: bash
-  
-  goodbye:
-    runs-on: ubuntu-latest
-    steps:
-      - name: goodbye world
-        run: echo "Goodbye World"
-        shell: bash
+      -name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+      -name: Modified files
+        run: git diff --name-only -r HEAD^1 HEAD
