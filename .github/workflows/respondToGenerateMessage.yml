@@ -40,7 +40,7 @@ jobs:
         uses: myrotvorets/set-commit-status-action@master
         if: always()
         with:
-          sha: ${{ steps.comment-branch.outputs.head_sha }}
+          sha: ${{ steps.comment_branch.outputs.head_sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
 
