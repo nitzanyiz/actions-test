@@ -53,7 +53,7 @@ jobs:
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const diffFiles = execSync('git diff HEAD^1 --name-only').toString();
+            const diffFiles = execSync('git diff HEAD^1 --name-only').toString().split('\n').map(lines => '*' + lines + '\n')
             const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\nChangedFiles:\n ${diffFiles}`;
 
             await github.rest.issues.createComment({
