@@ -9,12 +9,12 @@ jobs:
     steps:
       - name: Get PR branch
         uses: xt0rted/pull-request-comment-branch@v1
-        id: comment_branch
+        id: comment-branch
 
       - name: Set latest commit status as pending
         uses: myrotvorets/set-commit-status-action@master
         with:
-          sha: ${{ steps.comment_branch.outputs.head_sha }}
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           status: pending
 
@@ -26,7 +26,7 @@ jobs:
       - name: Generate
         run: |
           echo "hell world" > test.txt
-          echo "${{ github.event.issue.pull_request.head.ref }}"
+          echo "${{ steps.comment-branch.outputs }}"
       - name: Push changes
         run: |
           git config user.name github-actions
@@ -40,7 +40,7 @@ jobs:
         uses: myrotvorets/set-commit-status-action@master
         if: always()
         with:
-          sha: ${{ steps.comment_branch.outputs.head_sha }}
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
 
