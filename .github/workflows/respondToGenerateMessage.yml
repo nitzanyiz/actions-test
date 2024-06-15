@@ -26,7 +26,7 @@ jobs:
       - name: Generate
         run: |
           echo "hell world" > test.txt
-          echo "${{ steps.comment-branch.outputs }}"
+          echo "${{ JSON.stringify(steps.comment-branch.outputs) }}"
       - name: Push changes
         run: |
           git config user.name github-actions
