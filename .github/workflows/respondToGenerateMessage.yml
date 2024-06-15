@@ -1,0 +1,25 @@
+name: Generate assets structure on PR comment.
+
+on: issue_comment
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '#generate'}}
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.issue.pull_request.head.ref }}
+      - name: Generate
+        run: |
+          echo "hell world" > test.txt
+      - name: Push changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git remote set-url --push origin https://github-actions:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add -A
+          git commit -m "Generate assets structure"
+          git push
+
