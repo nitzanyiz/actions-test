@@ -33,8 +33,7 @@ jobs:
           git config user.email github-actions@github.com
           git remote set-url --push origin https://github-actions:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add -A
-          git commit -m "Generate assets structure"
-          git push
+          git diff-index --quiet HEAD || git commit -m "Generate assets structure" || git push
       
       - name: Set latest commit status as ${{ job.status }}
         uses: myrotvorets/set-commit-status-action@master
