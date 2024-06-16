@@ -3,7 +3,7 @@ name: Generate assets structure on PR comment.
 on: issue_comment
 
 jobs:
-  deploy:
+  AddAssetOnGenerate:
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.pull_request && github.event.comment.body == '#generate'}}
     steps:
