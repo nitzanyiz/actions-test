@@ -25,7 +25,8 @@ jobs:
 
       - name: Generate
         run: |
-          echo "hell world" > test.txt
+          node failingScript.js >> $GITHUB_OUTPUT
+        id: scriptOutput
       - name: Push changes
         run: |
           git config user.name github-actions
@@ -44,17 +45,18 @@ jobs:
           sha: ${{ steps.comment-branch.outputs.head_sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
+
       - name: Add comment to PR
         uses: actions/github-script@v6
         if: always()
         with:
           script: |
             const {execSync} = require('child_process')
-            const name = '${{ github.workflow   }}';
+            const name = 'Generating assets structure status';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
             const diffFiles = execSync('git diff HEAD^1 --name-only').toString().split('\n').filter(line => line.trim() !== '').map(line => '* ' + line  + ' \n')
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\nChangedFiles:\n ${diffFiles}`;
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\nChanged Files:\n ${diffFiles}\n ${{ steps.scriptOutput.outputs.stdout }}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
