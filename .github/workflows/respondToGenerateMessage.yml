@@ -55,7 +55,14 @@ jobs:
             const name = 'Generating assets structure status';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const diffFiles = execSync('git diff HEAD^1 --name-only').toString().split('\n').filter(line => line.trim() !== '').map(line => '* ' + line  + ' \n')
+            let diffOutput = '';
+            try {
+              diffOutput = execSync('git diff --name-only HEAD^').toString()
+            }
+            catch (e) {
+              console.log('Error getting changed files', e)
+            }
+            const diffFiles = diffOutput.split('\n').filter(line => line.trim() !== '').map(line => '* ' + line).join('')
             const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\nChanged Files:\n ${diffFiles}\n ${{ steps.scriptOutput.outputs.stdout }}`;
 
             await github.rest.issues.createComment({
