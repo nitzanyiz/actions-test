@@ -25,7 +25,8 @@ jobs:
 
       - name: Generate
         run: |
-          node ./failingScript.js
+          echo "SCRIPT_OUTPUT=$(node ./failingScript.js)" >> $GITHUB_OUTPUT
+        id: scriptOutput
 
       - name: Push changes
         run: |
