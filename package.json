@@ -7,6 +7,6 @@
   "license": "MIT",
   "scripts": {
     "start": "echo 'Hello World!'",
-    "generate": "node ./failingScript.js"
+    "generate": "node ./generateScript.js"
   }
 }
